@@ -10,8 +10,8 @@ define sshkeys::set_authorized_key (
 
   # Parse the name
   $parts = split($remote_user, '@')
-  $remote_user = $parts[0]
-  $remote_node = $parts[1]
+  $remote_username = $parts[0]
+  $remote_node     = $parts[1]
 
   # Figure out the destination home directory
   if ($home) {
@@ -37,8 +37,9 @@ define sshkeys::set_authorized_key (
     }
   } else {
     # Get the key
-    $key = query_facts("fqdn=\"${remote_node}\"", ["sshkey_${remote_user}"])
-    if ($key !~ /^(ssh-...)) {
+    $results = query_facts("fqdn=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
+    $key = $results[$remote_node]["sshpubkey_${remote_username}"]
+    if ($key !~ /^(ssh-...) ([^ ]*)/) {
       err("Can't parse key from ${remote_user}")
       notify { "Can't parse key from ${remote_user}. Skipping": }
     } else {
