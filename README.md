@@ -18,19 +18,23 @@ Usage
 
 Create a SSH key for a user:
 
-  sshkeys::create_key { 'root':
-    home => '/root',
-  }
+```puppet
+sshkeys::create_key { 'root':
+  home => '/root',
+}
+```
 
 Once created, Facter will expose the public key via the fact `sshpubkey_root`.
 
 To allow `root@server1` to access `root@server2`:
 
-  sshkeys::set_authorized_key {'root@server1 to root@server2':
-    local_user  => 'root',
-    remote_user => 'root@server1',
-    home        => '/root',
-  }
+```puppet
+sshkeys::set_authorized_key {'root@server1 to root@server2':
+  local_user  => 'root',
+  remote_user => 'root@server1',
+  home        => '/root',
+}
+```
 
 Now, `user1` should have the `key1` key pair installed on his account,
 and be able to login to the `user2` account.
