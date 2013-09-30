@@ -17,6 +17,7 @@ define sshkeys::create_ssh_directory (
 
   file { "${home_real}/.ssh":
     ensure  => directory,
+    owner   => "${name}",
     mode    => '0700',
     require => $require,
   }
