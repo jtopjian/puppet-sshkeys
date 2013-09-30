@@ -39,6 +39,11 @@ sshkeys::set_authorized_key {'root@server1 to root@server2':
 Now, `user1` should have the `key1` key pair installed on his account,
 and be able to login to the `user2` account.
 
+Dependancies
+============
+
+This module requires the `concat` function added to [puppetlabs/stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) in version 4.1.0
+
 
 Authors
 =======
