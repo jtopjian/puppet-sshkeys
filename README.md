@@ -42,7 +42,10 @@ and be able to login to the `user2` account.
 Dependencies
 ============
 
-This module requires the `concat` function added to [puppetlabs/stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) in version 4.1.0
+This module requires:
+
+  * The [dalen/puppetdbquery](https://github.com/dalen/puppet-puppetdbquery) module
+  * The `concat` function added to [puppetlabs/stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) in version 4.1.0
 
 
 Authors
