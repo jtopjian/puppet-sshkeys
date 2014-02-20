@@ -36,8 +36,11 @@ define sshkeys::set_authorized_key (
       ensure => absent,
     }
   } else {
-    # Get the key
-    $results = query_facts("fqdn=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
+    if $remote_node =~ /\./ {
+      $results = query_facts("fqdn=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
+    } else {
+      $results = query_facts("hostname=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
+    }
     $key = $results[$remote_node]["sshpubkey_${remote_username}"]
     if ($key !~ /^(ssh-...) ([^ ]*)/) {
       err("Can't parse key from ${remote_user}")
