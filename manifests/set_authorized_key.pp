@@ -38,18 +38,20 @@ define sshkeys::set_authorized_key (
   } else {
     # Get the key
     $results = query_facts("fqdn=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
-    $key = $results[$remote_node]["sshpubkey_${remote_username}"]
-    if ($key !~ /^(ssh-...) ([^ ]*)/) {
-      err("Can't parse key from ${remote_user}")
-      notify { "Can't parse key from ${remote_user}. Skipping": }
-    } else {
-      $keytype = $1
-      $modulus = $2
-      ssh_authorized_key { $name:
-        ensure  => $ensure,
-        type    => $keytype,
-        key     => $modulus,
-        options => $options ? { undef => undef, default => $options },
+    if $results[$remote_node] {
+      $key = $results[$remote_node]["sshpubkey_${remote_username}"]
+      if ($key !~ /^(ssh-...) ([^ ]*)/) {
+        err("Can't parse key from ${remote_user}")
+        notify { "Can't parse key from ${remote_user}. Skipping": }
+      } else {
+        $keytype = $1
+        $modulus = $2
+        ssh_authorized_key { $name:
+          ensure  => $ensure,
+          type    => $keytype,
+          key     => $modulus,
+          options => $options ? { undef => undef, default => $options },
+        }
       }
     }
   }
