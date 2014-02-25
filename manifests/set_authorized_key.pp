@@ -42,7 +42,7 @@ define sshkeys::set_authorized_key (
     } else {
       $results = query_facts("hostname=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
     }
-    if $results[$remote_node] {
+    if has_key($results[$remote_node], "sshpubkey_${remote_username}") {
       $key = $results[$remote_node]["sshpubkey_${remote_username}"]
       if ($key !~ /^(ssh-...) ([^ ]*)/) {
         err("Can't parse key from ${remote_user}")
@@ -57,6 +57,8 @@ define sshkeys::set_authorized_key (
           options => $options ? { undef => undef, default => $options },
         }
       }
+    } else {
+      notify { "Public key from ${remote_user}@${remote_node} not available yet. Skipping": }
     }
   }
 }
