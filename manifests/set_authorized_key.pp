@@ -42,7 +42,7 @@ define sshkeys::set_authorized_key (
     } else {
       $results = query_facts("hostname=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
     }
-    if has_key($results, $remote_node) {
+    if is_hash($results) and has_key($results, $remote_node) {
       $key = $results[$remote_node]["sshpubkey_${remote_username}"]
       if ($key !~ /^(ssh-...) ([^ ]*)/) {
         err("Can't parse key from ${remote_user}")
