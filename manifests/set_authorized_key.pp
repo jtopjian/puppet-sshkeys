@@ -36,24 +36,29 @@ define sshkeys::set_authorized_key (
       ensure => absent,
     }
   } else {
+    # Get the key
     if $remote_node =~ /\./ {
       $results = query_facts("fqdn=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
     } else {
       $results = query_facts("hostname=\"${remote_node}\"", ["sshpubkey_${remote_username}"])
     }
-    $key = $results[$remote_node]["sshpubkey_${remote_username}"]
-    if ($key !~ /^(ssh-...) ([^ ]*)/) {
-      err("Can't parse key from ${remote_user}")
-      notify { "Can't parse key from ${remote_user}. Skipping": }
-    } else {
-      $keytype = $1
-      $modulus = $2
-      ssh_authorized_key { $name:
-        ensure  => $ensure,
-        type    => $keytype,
-        key     => $modulus,
-        options => $options ? { undef => undef, default => $options },
+    if has_key($results[$remote_node], "sshpubkey_${remote_username}") {
+      $key = $results[$remote_node]["sshpubkey_${remote_username}"]
+      if ($key !~ /^(ssh-...) ([^ ]*)/) {
+        err("Can't parse key from ${remote_user}")
+        notify { "Can't parse key from ${remote_user}. Skipping": }
+      } else {
+        $keytype = $1
+        $modulus = $2
+        ssh_authorized_key { $name:
+          ensure  => $ensure,
+          type    => $keytype,
+          key     => $modulus,
+          options => $options ? { undef => undef, default => $options },
+        }
       }
+    } else {
+      notify { "Public key from ${remote_user}@${remote_node} not available yet. Skipping": }
     }
   }
 }
