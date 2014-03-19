@@ -3,7 +3,7 @@ define sshkeys::create_key (
   $require_user   = false,
   $manage_home    = true,
   $create_ssh_dir = true,
-  $ssh_mode       = 'rsa',
+  $ssh_keytype    = 'rsa',
   $passphrase     = ''
 ) {
 
@@ -42,9 +42,9 @@ define sshkeys::create_key (
   }
 
   exec { "ssh_keygen-${name}":
-    command => "/usr/bin/ssh-keygen -t ${ssh_mode} -f \"${home_real}/.ssh/id_${ssh_mode}\" -N '${passphrase}' -C '${user}@${::fqdn}'",
+    command => "/usr/bin/ssh-keygen -t ${ssh_keytype} -f \"${home_real}/.ssh/id_${ssh_keytype}\" -N '${passphrase}' -C '${user}@${::fqdn}'",
     user    => $name,
-    creates => "${home_real}/.ssh/id_${ssh_mode}",
+    creates => "${home_real}/.ssh/id_${ssh_keytype}",
     require => $require3,
   }
 }
