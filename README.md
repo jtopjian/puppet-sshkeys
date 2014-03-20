@@ -20,7 +20,8 @@ Create a SSH key for a user:
 
 ```puppet
 sshkeys::create_key { 'root':
-  home => '/root',
+  home     => '/root',
+  ssh_keytype => 'dsa',
 }
 ```
 
