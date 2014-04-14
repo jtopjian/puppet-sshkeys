@@ -42,7 +42,7 @@ define sshkeys::create_key (
   }
 
   exec { "ssh_keygen-${name}":
-    command => "/usr/bin/ssh-keygen -t ${ssh_keytype} -f \"${home_real}/.ssh/id_${ssh_keytype}\" -N '${passphrase}' -C '${user}@${::fqdn}'",
+    command => "/usr/bin/ssh-keygen -t ${ssh_keytype} -f \"${home_real}/.ssh/id_${ssh_keytype}\" -N '${passphrase}' -C '${name}@${::fqdn}'",
     user    => $name,
     creates => "${home_real}/.ssh/id_${ssh_keytype}",
     require => $require3,
