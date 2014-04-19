@@ -1,7 +1,7 @@
 require 'etc'
 
 Etc.passwd do |pw|
-  user = pw.name
+  user = pw.name.gsub!(/[^a-zA-Z0-9_]/, '')
   homedir = pw.dir
   key = false
 
