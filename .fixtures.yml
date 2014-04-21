@@ -1,0 +1,6 @@
+fixtures:
+  repositories:
+    puppetdbquery: https://github.com/dalen/puppet-puppetdbquery
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib
+  symlinks:
+    sshkeys: "#{source_dir}"

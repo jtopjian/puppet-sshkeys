@@ -1,3 +1,30 @@
+# == Defined Type: sshkeys::set_authorized_key
+#
+#   Add a key to a user's authorized_keys file.
+#
+# === Parameters
+#
+#   [*local_user*]
+#     The user who will receive the key.
+#
+#   [*remote_user*]
+#     The user of the key being obtained.
+#
+#   [*ensure*]
+#     Status of the key.
+#
+#   [*group*]
+#     Group owner of the key.
+#
+#   [*home*]
+#     The homedir of the user receiving the key.
+#
+#   [*options*]
+#     Any ssh key options.
+#
+#   [*target*]
+#     The destination authorized_keys file.
+#
 define sshkeys::set_authorized_key (
   $local_user,
   $remote_user,

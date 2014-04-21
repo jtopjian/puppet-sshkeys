@@ -1,3 +1,27 @@
+# == Defined Type: sshkeys::create_key
+#
+#   Creates an SSH key for a user
+#
+# === Parameters
+#
+#   [*home*]
+#     The homedir of the user.
+#
+#   [*require_user*]
+#     Require a User[username] resource.
+#
+#   [*manage_home*]
+#     manage_home attribute of the User resource.
+#
+#   [*create_ssh_dir*]
+#     Whether to create /home/user/.ssh.
+#
+#   [*ssh_keytype*]
+#     Either rsa or dsa.
+#
+#   [*passphrase*]
+#     Optional passphrase to set on the key.
+#
 define sshkeys::create_key (
   $home           = undef,
   $require_user   = false,
@@ -7,13 +31,13 @@ define sshkeys::create_key (
   $passphrase     = ''
 ) {
 
-  if ($home) {
+  if $home {
     $home_real = $home
   } else {
     $home_real = "/home/${name}"
   }
 
-  if ($create_ssh_dir) {
+  if $create_ssh_dir {
     sshkeys::create_ssh_directory { $name:
       home         => $home_real,
       require_user => $require_user,
@@ -23,13 +47,13 @@ define sshkeys::create_key (
     $require1 = []
   }
 
-  if ($require_user) {
+  if $require_user {
     $require2 = concat($require1, [User[$name]])
   } else {
     $require2 = $require1
   }
 
-  if ($manage_home) {
+  if $manage_home {
     file { $home_real:
       ensure => directory,
       owner  => $name,

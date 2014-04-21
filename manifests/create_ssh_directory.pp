@@ -1,13 +1,24 @@
+# == Defined Type: sshkeys::create_ssh_directory
+#
+#   Creates a .ssh directory for a given user.
+#
+# === Parameters
+#
+#   [*home*]
+#     The homedir to create the directory in.
+#
+#   [*require_user*]
+#     Whether to depend on a User resource or not.
+#
 define sshkeys::create_ssh_directory (
   $home         = undef,
-  $manage_home  = true,
   $require_user = true
 ) {
 
- if ($home) {
-    $home_real= $home
+  if $home {
+    $home_real = $home
   } else {
-    $home_real= "/home/${name}"
+    $home_real = "/home/${name}"
   }
 
   $require = $require_user ? {
@@ -17,7 +28,7 @@ define sshkeys::create_ssh_directory (
 
   file { "${home_real}/.ssh":
     ensure  => directory,
-    owner   => "${name}",
+    owner   => $name,
     mode    => '0700',
     require => $require,
   }
