@@ -85,7 +85,7 @@ define sshkeys::set_authorized_key (
         }
       }
     } else {
-      notify { "Public key from ${remote_user}@${remote_node} not available yet. Skipping": }
+      notify { "Public key from ${remote_username}@${remote_node} not available yet. Skipping": }
     }
   }
 }
