@@ -65,10 +65,24 @@ define sshkeys::create_key (
     $require3 = $require2
   }
 
+  exec { "test_keypair-${name}": 
+    command  => "/usr/bin/test -f \"${home_real}/.ssh/id_${ssh_keytype}.pub\"",
+    user     => $name,
+    onlyif   => "/usr/bin/test -f ${home_real}/.ssh/id_${ssh_keytype}",
+    require  => $require3, 
+  }
+
+  exec { "test_pubkey-${name}":
+    command => "/bin/echo 'test' > \"${home_real}/.ssh/id_${ssh_keytype}.pub\"",
+    user    => $name,
+    creates => "${home_real}/.ssh/id_${ssh_keytype}",
+    require => $require3,
+  }
+
   exec { "ssh_keygen-${name}":
     command => "/usr/bin/ssh-keygen -t ${ssh_keytype} -f \"${home_real}/.ssh/id_${ssh_keytype}\" -N '${passphrase}' -C '${name}@${::fqdn}'",
     user    => $name,
     creates => "${home_real}/.ssh/id_${ssh_keytype}",
-    require => $require3,
+    require => Exec["test_pubkey-${name}"],
   }
 }
