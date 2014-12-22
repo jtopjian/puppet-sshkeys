@@ -13,12 +13,6 @@
 #   [*ensure*]
 #     Status of the key.
 #
-#   [*group*]
-#     Group owner of the key.
-#
-#   [*home*]
-#     The homedir of the user receiving the key.
-#
 #   [*options*]
 #     Any ssh key options.
 #
@@ -29,8 +23,6 @@ define sshkeys::set_authorized_key (
   $local_user,
   $remote_user,
   $ensure  = 'present',
-  $group   = undef,
-  $home    = undef,
   $options = undef,
   $target  = undef
 ) {
@@ -40,25 +32,21 @@ define sshkeys::set_authorized_key (
   $remote_username = $parts[0]
   $remote_node     = $parts[1]
 
-  # Figure out the destination home directory
-  if ($home) {
-    $home_real = $home
-  } else {
-    $home_real = "/home/${local_user}"
-  }
+  $homedir = getvar("::homedir_${local_user}")
 
   # Figure out the target
-  if ($target) {
+  if $target {
     $target_real = $target
   } else {
-    $target_real = "${home_real}/.ssh/authorized_keys"
+    $target_real = "${homedir}/.ssh/authorized_keys"
   }
 
   Ssh_authorized_key {
     user   => $local_user,
     target => $target_real,
   }
-  if ($ensure == 'absent') {
+
+  if $ensure == 'absent' {
     ssh_authorized_key { $name:
       ensure => absent,
     }
@@ -88,4 +76,5 @@ define sshkeys::set_authorized_key (
       notify { "Public key from ${remote_username}@${remote_node} (for local user ${local_user}) not available yet. Skipping": }
     }
   }
+
 }

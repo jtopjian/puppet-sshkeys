@@ -4,6 +4,14 @@ sshkeys puppet module
 The sshkeys puppet module creates, shares, and installs SSH keys.
 
 
+Important!
+==========
+
+This module recently went through a large change and is not compatible
+with previous versions.
+
+You can access the old version in the v1 branch or the 1.0.0 tag.
+
 How it works
 ============
 
