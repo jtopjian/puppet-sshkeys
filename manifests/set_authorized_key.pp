@@ -69,7 +69,7 @@ define sshkeys::set_authorized_key (
           ensure  => $ensure,
           type    => $keytype,
           key     => $modulus,
-          options => $options ? { undef => undef, default => $options },
+          options => $options,
         }
       }
     } else {

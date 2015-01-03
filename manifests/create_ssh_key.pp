@@ -43,21 +43,21 @@ define sshkeys::create_ssh_key (
 
   if $create_ssh_dir {
     file { "${homedir}/.ssh":
-      ensure  => directory,
-      owner   => $owner_real,
-      group   => $group_real,
-      mode    => '0700',
+      ensure => directory,
+      owner  => $owner_real,
+      group  => $group_real,
+      mode   => '0700',
     }
-    $require_home = File["${homedir}/.ssh"]
+    $require = File["${homedir}/.ssh"]
   } else {
-    $require_home = undef
+    $require = undef
   }
 
   exec { "ssh_keygen-${name}":
     command => "/usr/bin/ssh-keygen -t ${ssh_keytype} -f '${homedir}/.ssh/id_${ssh_keytype}' -N '${passphrase}' -C '${name}@${::fqdn}'",
     user    => $name,
     creates => "${homedir}/.ssh/id_${ssh_keytype}",
-    require => $require_home,
+    require => $require,
   }
 
 }

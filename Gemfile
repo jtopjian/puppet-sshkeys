@@ -1,9 +1,8 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-rspecversion = ENV.key?('RSPEC_VERSION') ? "= #{ENV['RSPEC_VERSION']}" : ['>= 2.9']
-
-gem 'puppet'
-gem 'rspec', rspecversion
-gem 'rspec-puppet', :git => 'https://github.com/rodjek/rspec-puppet.git'
-gem 'puppet-lint'
-gem 'puppetlabs_spec_helper'
+group :test do
+  gem "rake"
+  gem "rspec-puppet", :git => 'https://github.com/rodjek/rspec-puppet.git'
+  gem "puppetlabs_spec_helper"
+  gem "metadata-json-lint"
+end
