@@ -32,13 +32,13 @@ define sshkeys::set_authorized_key (
   $remote_username = $parts[0]
   $remote_node     = $parts[1]
 
-  $homedir = getvar("::homedir_${local_user}")
+  $home = getvar("::home_${local_user}")
 
   # Figure out the target
   if $target {
     $target_real = $target
   } else {
-    $target_real = "${homedir}/.ssh/authorized_keys"
+    $target_real = "${home}/.ssh/authorized_keys"
   }
 
   Ssh_authorized_key {
