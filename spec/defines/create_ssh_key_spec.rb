@@ -13,7 +13,7 @@ describe 'sshkeys::create_ssh_key' do
     let(:title) { 'jdoe' }
 
     it { should contain_file('/home/jdoe/.ssh').with(:owner => 'jdoe') }
-    it { should contain_exec('ssh_keygen-jdoe').with(:command => "/usr/bin/ssh-keygen -t rsa -f '/home/jdoe/.ssh/id_rsa' -N '' -C 'jdoe@example.com'") }
+    it { should contain_exec('ssh_keygen-jdoe').with(:command => "/usr/bin/ssh-keygen -t rsa -b 2048 -f '/home/jdoe/.ssh/id_rsa' -N '' -C 'jdoe@example.com'") }
 
   end
 
@@ -30,7 +30,7 @@ describe 'sshkeys::create_ssh_key' do
 
     it do
       should contain_exec('ssh_keygen-jdoe').with({
-        :command => "/usr/bin/ssh-keygen -t dsa -f '/home/jdoe/.ssh/id_dsa' -N 'foobar' -C 'jdoe@example.com'",
+        :command => "/usr/bin/ssh-keygen -t dsa -b 1024 -f '/home/jdoe/.ssh/id_dsa' -N 'foobar' -C 'jdoe@example.com'",
         :user    => 'jdoe',
         :creates => '/home/jdoe/.ssh/id_dsa',
       })
