@@ -37,7 +37,7 @@ Usage
 Create a SSH key for a user (this is optional):
 
 ```puppet
-sshkeys::create_key { 'root':
+sshkeys::create_ssh_key { 'root':
   ssh_keytype => 'dsa',
 }
 ```
