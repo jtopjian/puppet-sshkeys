@@ -1,4 +1,4 @@
-# == Defined Type: sshkeys::create_key
+# == Defined Type: sshkeys::create_ssh_key
 #
 #   Creates an SSH key for a user
 #
