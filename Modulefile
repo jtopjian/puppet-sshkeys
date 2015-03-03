@@ -1,5 +1,5 @@
 name    'jtopjian-sshkeys'
-version '2.0.0'
+version '2.0.1'
 source 'git@github.com/jtopjian/puppet-sshkeys.git'
 author 'Joe Topjian'
 license 'Apache License, Version 2.0'
