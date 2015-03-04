@@ -30,7 +30,7 @@ define sshkeys::set_authorized_key (
   # Parse the name
   $parts = split($remote_user, '@')
   $remote_username = $parts[0]
-  $remote_node     = $parts[1]
+  $remote_node     = downcase($parts[1])
 
   $home = getvar("::home_${local_user}")
 
