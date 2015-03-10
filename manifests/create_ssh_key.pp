@@ -43,8 +43,7 @@ define sshkeys::create_ssh_key (
 
   if $ssh_bitlength {
     $bitlength = $ssh_bitlength
-  }
-  else {
+  } else {
     case $ssh_keytype {
       'rsa': {
         $bitlength = $rsa_default
