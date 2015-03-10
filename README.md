@@ -25,6 +25,18 @@ By using PuppetDB, all keys are then recorded in the database. Other nodes (and 
 
 This fact publishes the homedir for all users found in `/etc/passwd`. This fact is used to help locate a certain user's home directory.
 
+In addition to those two facts, an optional third fact can be created:
+
+```shell
+$ cat /etc/facter/facts.d/homedir_users.yaml
+---
+homedir_users:
+  - root
+  - jdoe
+```
+
+If this fact exists, then only the users specified will have their home directory and ssh public key exported via facter. This is useful in cases where `/home` is automounted and parsing all users will mount all home directories. It's also useful if you just don't want everyone's public key exported.
+
 Limitations
 ===========
 
