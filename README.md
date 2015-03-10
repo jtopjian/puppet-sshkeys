@@ -42,6 +42,8 @@ sshkeys::create_ssh_key { 'root':
 }
 ```
 
+The default bit lengths are 2048 for rsa and 1024 for dsa.  To override the defaults, use the ssh_bitlength parameter.
+
 Once created, Facter will expose the public key via the fact `sshpubkey_root`.
 
 To allow `root@server1` to access `root@server2`:
