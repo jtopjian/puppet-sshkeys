@@ -70,11 +70,13 @@ define sshkeys::create_ssh_key (
   }
 
   if $create_ssh_dir {
-    file { "${homedir}/.ssh":
-      ensure => directory,
-      owner  => $owner_real,
-      group  => $group_real,
-      mode   => '0700',
+    if !defined(File["${homedir}/.ssh"]) {
+      file { "${homedir}/.ssh":
+        ensure => directory,
+        owner  => $owner_real,
+        group  => $group_real,
+        mode   => '0700',
+      }
     }
     $require = File["${homedir}/.ssh"]
   } else {
