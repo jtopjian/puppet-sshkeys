@@ -20,7 +20,7 @@ if homedir_users != nil and homedir_users.size > 0
   homedir_users.each do |u|
     begin
       pw = Etc.getpwnam(u)
-      user = pw.name.gsub(/[^a-zA-Z0-9_]/, '')
+      user = pw.name
       homedir = pw.dir
       key = false
 
@@ -38,7 +38,7 @@ if homedir_users != nil and homedir_users.size > 0
   end
 else
   Etc.passwd do |pw|
-    user = pw.name.gsub(/[^a-zA-Z0-9_]/, '')
+    user = pw.name
     homedir = pw.dir
     key = false
 
