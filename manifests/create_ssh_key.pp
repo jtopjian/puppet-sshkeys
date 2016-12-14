@@ -48,11 +48,11 @@ define sshkeys::create_ssh_key (
   } else {
     $homedir = getvar("::home_${name}")
     if ($homedir == undef) {
-	  notify { "Cannot determine the home dir of user '${name}'. Skipping SSH key creation": }
-	  $dir = undef
-	} else {
-	  $dir = "${homedir}/.ssh"
-	}
+      notify { "Cannot determine the home dir of user '${name}'. Skipping SSH key creation": }
+      $dir = undef
+    } else {
+      $dir = "${homedir}/.ssh"
+    }
   }
 
   if ($dir != undef) {  
@@ -94,13 +94,14 @@ define sshkeys::create_ssh_key (
         owner  => $owner_real,
         group  => $group_real,
         mode   => '0700',
-		require => $require,
+        require => $require,
       }
-	  if ($require == undef) {
-		$required = File["${dir}"]
+ 
+      if ($require == undef) {
+        $required = File["${dir}"]
       } else {
-		$required = [ $require, File["${dir}"] ].flatten
-	  }
+        $required = [ $require, File["${dir}"] ].flatten
+      }
     } else {
       $required = $require
     }
