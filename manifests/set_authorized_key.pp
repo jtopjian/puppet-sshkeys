@@ -48,7 +48,7 @@ define sshkeys::set_authorized_key (
 
   $home = getvar("::home_${local_user}")
   if ($home == undef) {
-    notify { "Cannot determine the home dir of user '${local_user}'. Skipping SSH authorized key registration": }
+    notify { "Cannot determine the home dir of user '${local_user}' for key from ${remote_username}@${remote_node}. Skipping SSH authorized key registration": }
   } else {
     # Figure out the target
     if $target {
