@@ -36,8 +36,8 @@ define sshkeys::create_ssh_key (
   $create_ssh_dir = true,
   $ssh_keytype    = 'rsa',
   $ssh_bitlength  = undef,
-  $passphrase     = '',
   $require        = undef,
+  $passphrase,
 ) {
 
   validate_bool($create_ssh_dir)
